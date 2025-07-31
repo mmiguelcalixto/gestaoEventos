@@ -1,4 +1,5 @@
 import fs from "fs"
+import { v4 as uuidv4 } from 'uuid';
 import { IEvento, Status } from "../model/IEvento";
 
 export class EventoController {
@@ -22,6 +23,8 @@ export class EventoController {
     } else if (Date.now() > new Date(novoEvento.data).getMilliseconds()) {
       novoEvento.status = Status.concluido;
     }
+
+    novoEvento.id = uuidv4();
 
     this.eventos.push(novoEvento);
 
