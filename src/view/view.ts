@@ -1,5 +1,8 @@
+import { EventoController } from "../controller/controller";
 import { IEvento }  from "../model/IEvento";
 import inquirer from "inquirer"
+
+const eventoController = new EventoController();
 
 export async function inputEvento(): Promise<IEvento> {
   const input = [
@@ -19,8 +22,8 @@ export async function inputEvento(): Promise<IEvento> {
 			name: "data",
 			message: "Digite a data: ",
 			validate: (input: string): boolean | string => {
-				if (input.trim() === "") {
-					return "A data não pode ser vazia.";
+				if (!eventoController.isDateValid(input)) {
+					return "Formato de data inválido.";
 				}
 				return true;
 			},
@@ -51,12 +54,6 @@ export async function inputEvento(): Promise<IEvento> {
 			type: "input",
 			name: "participantesAtuais",
 			message: "Digite o número de participantes atuais: ",
-			validate: (input: number): boolean | string => {
-				if (input.toString() === "") {
-					return "O número de participantes atuais não pode ser vazio.";
-				}
-				return true;
-			},
 		},
 	]	
 

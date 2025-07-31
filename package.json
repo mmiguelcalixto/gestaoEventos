@@ -12,11 +12,14 @@
   "devDependencies": {
     "@types/inquirer": "^9.0.8",
     "@types/node": "^24.1.0",
+    "@types/uuid": "^10.0.0",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "inquirer": "^12.9.0"
+    "fs": "^0.0.1-security",
+    "inquirer": "^12.9.0",
+    "uuid": "^11.1.0"
   }
 }

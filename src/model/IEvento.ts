@@ -1,4 +1,4 @@
-enum Status {
+export enum Status {
 	agendado = "agendado",
 	cancelado = "cancelado",
 	concluido = "concluido"
