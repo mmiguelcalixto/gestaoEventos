@@ -32,6 +32,36 @@ export class EventoController {
 
     console.log(`Evento ${novoEvento.nome} adiconado com sucesso.`);
   }
+    
+  public listarEventos(): void {
+    if (this.eventos.length === 0) {
+      console.log("Nenhum evento cadastrado.");
+    } else {
+      this.eventos.map(evento => {
+        console.log(evento);
+      });
+    }
+  } 
+
+  public buscarEventos(nome?: string, local?: string): void {
+    if (nome) {
+      const nomeEventos = this.eventos.filter(evento => evento.nome.toLowerCase() === nome.toLowerCase())
+      if (nomeEventos.length !== 0) {
+        nomeEventos.map(evento => console.log(evento));
+      } else {
+        console.log("Não há eventos com esse nome.")
+      }
+    }
+
+    if (local) {
+      const localEventos = this.eventos.filter(evento => evento.local.toLowerCase() === local.toLowerCase())
+      if (localEventos.length !== 0) {
+        localEventos.map(evento => console.log(evento));
+      } else {
+        console.log("Não há eventos nesse local.")
+      }
+    }
+  }
 
   public async salvarEventos() {
     try {
@@ -39,6 +69,69 @@ export class EventoController {
       fs.writeFileSync(this.dbFile, json, "utf-8");
     } catch (error) {
       throw error;
+    }
+  }
+
+  public async editarEvento(id: string, novosDados: IEvento): Promise<void> {
+    let evento = this.eventos.find(evento => evento.id  === id);
+    console.log(novosDados)
+
+    if (evento) {
+      evento = {
+        id: evento.id,
+        nome: novosDados.nome === "" ?  evento.nome : novosDados.nome,
+        data: novosDados.data  === "" ? evento.data : novosDados.data,
+        local: novosDados.local  === "" ? evento.local : novosDados.local,
+        capacidadeMaxima: novosDados.capacidadeMaxima  === null ? evento.capacidadeMaxima : novosDados.capacidadeMaxima,
+        participantesAtuais: evento.participantesAtuais,
+        status: evento.status,
+      };
+      
+      const index = this.eventos.findIndex(a => a.id === evento?.id);
+      this.eventos[index] = evento;
+
+      await this.salvarEventos();
+
+      console.log(`Evento ${id} editado com sucesso.`);
+    } else {
+      throw new Error(`Evento com id ${id} não encontrado`);
+    }
+  }
+
+  public async cancelarEvento(id: string): Promise<void> {
+    let evento = this.eventos.find(evento => evento.id  === id);
+
+    if (evento) {
+      evento.status = Status.cancelado;
+      const index = this.eventos.findIndex(a => a.id === evento?.id);
+      this.eventos[index] = evento;
+
+      await this.salvarEventos();
+
+      console.log(`Evento ${id} editado com sucesso.`);
+    } else {
+      throw new Error(`Evento com id ${id} não encontrado`);
+    }
+  }
+
+  public async registrarParticipante(id: string, novosParticipantes: number): Promise<void> {
+    let evento = this.eventos.find(evento => evento.id  === id);
+    console.log(novosParticipantes);
+    if (evento) {
+      if (novosParticipantes <= evento.capacidadeMaxima) {
+        evento.participantesAtuais += novosParticipantes;
+      } else {
+        console.log(novosParticipantes, evento.participantesAtuais)
+        console.log(`Esse número de participantes excede a capacidade máxima do evento.`)
+      }
+
+      const index = this.eventos.findIndex(a => a.id === evento?.id);
+      this.eventos[index] = evento;
+
+      await this.salvarEventos();
+
+    } else {
+      throw new Error(`Evento com id ${id} não encontrado`);
     }
   }
 

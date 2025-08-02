@@ -13,3 +13,8 @@ export interface IEvento {
 	participantesAtuais: number,
 	status: Status
 }
+
+export interface IBusca {
+	id: string,
+	novosParticipantes: number,
+}

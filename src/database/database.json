@@ -1,0 +1,20 @@
+[
+  {
+    "id": "evt001",
+    "nome": "Seminário de Tecnologia",
+    "data": "2025-09-15",
+    "local": "Auditório Central - Campus Sul",
+    "capacidadeMaxima": 100,
+    "participantesAtuais": 67,
+    "status": "CONFIRMADO"
+  },
+  {
+    "id": "18a57f03-78d1-4c6a-a0f2-07fdd2c99ea2",
+    "nome": "edit",
+    "data": "2025-10-20",
+    "local": "casa",
+    "capacidadeMaxima": "30",
+    "participantesAtuais": "10",
+    "status": "cancelado"
+  }
+]
